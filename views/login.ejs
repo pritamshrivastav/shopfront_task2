@@ -1,0 +1,26 @@
+<%- include('partials/header', { title: 'Login' }) %>
+
+<div class="form-card">
+  <h1>Welcome back</h1>
+  <p class="form-sub">Log in to view your orders and check out.</p>
+
+  <% if (error) { %>
+    <div class="form-error"><%= error %></div>
+  <% } %>
+
+  <form action="/login" method="POST">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autofocus />
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+    </div>
+    <button type="submit" class="btn btn-primary btn-full">Log In</button>
+  </form>
+
+  <p class="form-footer-note">Don't have an account? <a href="/register">Sign up</a></p>
+</div>
+
+<%- include('partials/footer') %>

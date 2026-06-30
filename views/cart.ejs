@@ -1,0 +1,60 @@
+<%- include('partials/header', { title: 'Your Cart' }) %>
+
+<h1 style="margin-bottom: 24px;">Your Cart</h1>
+
+<% if (items.length === 0) { %>
+  <div class="empty-state">
+    <h2>Your cart is empty</h2>
+    <p>Looks like you haven't added anything yet.</p>
+    <a href="/" class="btn btn-primary">Browse the catalog</a>
+  </div>
+<% } else { %>
+  <div class="cart-layout">
+    <div class="cart-items">
+      <% items.forEach(item => { %>
+        <div class="cart-item">
+          <a href="/products/<%= item.product.id %>">
+            <img src="<%= item.product.image %>" alt="<%= item.product.name %>" />
+          </a>
+          <div>
+            <div class="item-name"><a href="/products/<%= item.product.id %>"><%= item.product.name %></a></div>
+            <div class="stock-note">$<%= item.product.price.toFixed(2) %> each</div>
+          </div>
+          <form class="qty-form" action="/cart/update" method="POST">
+            <input type="hidden" name="productId" value="<%= item.product.id %>" />
+            <input type="number" name="quantity" value="<%= item.quantity %>" min="1" max="<%= item.product.stock %>" />
+            <button type="submit" class="btn btn-outline" style="padding: 6px 10px; font-size: 0.8rem;">Update</button>
+          </form>
+          <strong>$<%= item.subtotal.toFixed(2) %></strong>
+          <form action="/cart/remove" method="POST">
+            <input type="hidden" name="productId" value="<%= item.product.id %>" />
+            <button type="submit" class="remove-btn">Remove</button>
+          </form>
+        </div>
+      <% }) %>
+
+      <form action="/cart/clear" method="POST" style="margin-top: 16px;">
+        <button type="submit" class="link-button" style="color: var(--ink-soft); text-decoration: underline; font-size: 0.85rem;">Clear cart</button>
+      </form>
+    </div>
+
+    <aside class="cart-summary">
+      <h2>Order Summary</h2>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>$<%= total.toFixed(2) %></span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span>Free</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>$<%= total.toFixed(2) %></span>
+      </div>
+      <a href="/checkout" class="btn btn-accent btn-full" style="margin-top: 18px; display:block; text-align:center;">Proceed to Checkout</a>
+    </aside>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

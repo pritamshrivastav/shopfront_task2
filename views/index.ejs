@@ -1,0 +1,52 @@
+<%- include('partials/header', { title: 'Shop' }) %>
+
+<section class="catalog-hero">
+  <div class="eyebrow">No. 01 — The Current Catalog</div>
+  <h1>Goods worth keeping.</h1>
+  <p class="sub">A small, honest selection — electronics, accessories, and home goods picked for build quality over trend. Browse the full catalog below.</p>
+</section>
+
+<div class="category-bar">
+  <% categories.forEach(cat => { %>
+    <a class="category-pill <%= cat === activeCategory ? 'active' : '' %>"
+       href="/?category=<%= encodeURIComponent(cat) %><%= query ? '&q=' + encodeURIComponent(query) : '' %>">
+      <%= cat %>
+    </a>
+  <% }) %>
+</div>
+
+<% if (products.length === 0) { %>
+  <div class="no-results">
+    <h2>No matches found</h2>
+    <p>Try a different search term or browse all categories.</p>
+    <a href="/" class="btn btn-outline">View all products</a>
+  </div>
+<% } else { %>
+  <div class="product-grid">
+    <% products.forEach((p, i) => { %>
+      <div class="product-card">
+        <span class="catalog-number">№ <%= String(p.id).padStart(3, '0') %></span>
+        <a href="/products/<%= p.id %>">
+          <img class="thumb" src="<%= p.image %>" alt="<%= p.name %>" loading="lazy" />
+        </a>
+        <div class="card-body">
+          <div class="category-label"><%= p.category %></div>
+          <h3><a href="/products/<%= p.id %>"><%= p.name %></a></h3>
+          <p class="desc-snip"><%= p.description %></p>
+          <div class="price-row">
+            <span class="price">$<%= p.price.toFixed(2) %></span>
+            <% if (p.stock === 0) { %>
+              <span class="stock-note low">Out of stock</span>
+            <% } else if (p.stock <= 5) { %>
+              <span class="stock-note low"><%= p.stock %> left</span>
+            <% } else { %>
+              <span class="stock-note">In stock</span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>

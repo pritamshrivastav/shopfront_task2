@@ -1,0 +1,15 @@
+<%- include('partials/header', { title: 'Order Confirmed' }) %>
+
+<div class="confirmation-box">
+  <div class="check">✓</div>
+  <h1>Order placed</h1>
+  <p>Thanks, <%= order.shipping.fullName.split(' ')[0] %> — your order has been received and is being processed.</p>
+  <div class="order-id-tag">Order #<%= String(order.id).padStart(5, '0') %></div>
+  <p style="font-size: 0.9rem;">A confirmation has been saved to your order history. Total charged: <strong>$<%= order.total.toFixed(2) %></strong> via <%= order.paymentMethod %>.</p>
+  <div style="display:flex; gap: 12px; justify-content:center; margin-top: 24px;">
+    <a href="/orders/<%= order.id %>" class="btn btn-outline">View Order</a>
+    <a href="/" class="btn btn-primary">Continue Shopping</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title + ' · Shopfront' : 'Shopfront' %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Shopfront</a>
+
+      <form class="search-form" action="/" method="GET">
+        <input type="text" name="q" placeholder="Search products…" value="<%= typeof query !== 'undefined' ? query : '' %>" />
+        <button type="submit" aria-label="Search">🔍</button>
+      </form>
+
+      <nav class="nav-links">
+        <a href="/cart" class="cart-link">
+          Cart
+          <% if (typeof cartCount !== 'undefined' && cartCount > 0) { %>
+            <span class="cart-badge"><%= cartCount %></span>
+          <% } %>
+        </a>
+        <% if (currentUser) { %>
+          <a href="/orders">My Orders</a>
+          <span class="user-greeting">Hi, <%= currentUser.name.split(' ')[0] %></span>
+          <form action="/logout" method="POST" class="inline-form">
+            <button type="submit" class="link-button">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/login">Login</a>
+          <a href="/register" class="btn-small">Sign Up</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page-content">

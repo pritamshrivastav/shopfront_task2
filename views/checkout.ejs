@@ -1,0 +1,66 @@
+<%- include('partials/header', { title: 'Checkout' }) %>
+
+<h1 style="margin-bottom: 24px;">Checkout</h1>
+
+<% if (error) { %>
+  <div class="form-error"><%= error %></div>
+<% } %>
+
+<div class="checkout-layout">
+  <form action="/checkout" method="POST">
+    <h2 style="font-size: 1.15rem; margin-bottom: 16px;">Shipping Details</h2>
+
+    <div class="field">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="fullName" required value="<%= currentUser ? currentUser.name : '' %>" />
+    </div>
+
+    <div class="field">
+      <label for="address">Street Address</label>
+      <input type="text" id="address" name="address" required placeholder="123 Market Street" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" required />
+      </div>
+      <div class="field">
+        <label for="postalCode">Postal Code</label>
+        <input type="text" id="postalCode" name="postalCode" required />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">Country</label>
+      <input type="text" id="country" name="country" required />
+    </div>
+
+    <div class="field">
+      <label for="paymentMethod">Payment Method</label>
+      <select id="paymentMethod" name="paymentMethod">
+        <option value="Cash on Delivery">Cash on Delivery</option>
+        <option value="Credit Card (Demo)">Credit Card (Demo)</option>
+        <option value="PayPal (Demo)">PayPal (Demo)</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-accent btn-full">Place Order — $<%= total.toFixed(2) %></button>
+  </form>
+
+  <aside class="cart-summary">
+    <h2>Order Summary</h2>
+    <% items.forEach(item => { %>
+      <div class="order-line">
+        <span><%= item.product.name %> &times; <%= item.quantity %></span>
+        <span>$<%= item.subtotal.toFixed(2) %></span>
+      </div>
+    <% }) %>
+    <div class="summary-row total" style="margin-top: 14px;">
+      <span>Total</span>
+      <span>$<%= total.toFixed(2) %></span>
+    </div>
+  </aside>
+</div>
+
+<%- include('partials/footer') %>
